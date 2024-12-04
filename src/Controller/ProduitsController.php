@@ -32,18 +32,17 @@ class ProduitsController extends AbstractController
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(Request $request, CategoriesRepository $categoriesRepository): JsonResponse
     {
-        //lecture du json et enregistre dans le data
         $data = json_decode($request->getContent(), true);
 
         if (empty($data['name']) || empty($data['description']) || empty($data['price']) || empty($data['category_id'])) {
             return $this->json(['error' => 'All fields are required'], 400);
         }
-         // il va chercher la cat a l'aide de l'id 
+
         $category = $categoriesRepository->find($data['category_id']);
         if (!$category) {
             return $this->json(['error' => 'Category not found'], 404);
         }
-        // crée instance de produits
+
         $produit = new Produits();
         $produit->setName($data['name']);
         $produit->setDescription($data['description']);

@@ -26,7 +26,7 @@ class Produits
     private \DateTimeImmutable $createdAt;
 
     #[ORM\ManyToOne(targetEntity: Categories::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private Categories $categories;
 
     // Getters et Setters

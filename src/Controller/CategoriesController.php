@@ -61,24 +61,11 @@ class CategoriesController extends AbstractController
     }
 
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
-public function delete(Categories $category, ProduitsRepository $produitsRepository): JsonResponse
-{
-    try {
-        // Récupérer les produits associés à la catégorie
-        $produits = $produitsRepository->findBy(['categories' => $category]);
-
-        // Supprimer chaque produit associé
-        foreach ($produits as $produit) {
-            $this->em->remove($produit);
-        }
-
-        // Supprimer la catégorie après les produits
+    public function delete(Categories $category): JsonResponse
+    {
         $this->em->remove($category);
         $this->em->flush();
 
-        return $this->json(['message' => 'Category and its products deleted successfully'], 204);
-    } catch (\Exception $e) {
-        return $this->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
+        return $this->json(null, 204);
     }
-}
 }
